@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import Profile from '../models/Profile';
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -23,4 +24,23 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     } catch (error) {
         res.status(500).json({ message: 'Erro no servidor' });
     }
+};
+
+export const authorize = (...roles: string[]) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userId = (req as any).user.id;
+            const profile = await Profile.findOne({ user_id: userId });
+
+            if (!profile || !roles.includes(profile.role)) {
+                return res.status(403).json({
+                    message: `O seu cargo (${profile?.role || 'indefinido'}) não tem permissão para realizar esta ação.`
+                });
+            }
+
+            next();
+        } catch (error) {
+            res.status(500).json({ message: 'Erro ao verificar permissões' });
+        }
+    };
 };

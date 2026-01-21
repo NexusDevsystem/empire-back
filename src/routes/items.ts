@@ -1,6 +1,6 @@
 import express from 'express';
 import { getItems, getItem, createItem, updateItem, deleteItem } from '../controllers/itemController';
-import { protect } from '../middleware/auth';
+import { protect, authorize } from '../middleware/auth';
 
 const router = express.Router();
 
@@ -13,6 +13,6 @@ router.route('/')
 router.route('/:id')
     .get(getItem)
     .put(updateItem)
-    .delete(deleteItem);
+    .delete(authorize('admin'), deleteItem);
 
 export default router;

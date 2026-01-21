@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 
 const AppointmentSchema = new mongoose.Schema({
-    clientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Client', required: true },
+    clientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Client', required: false },
+    clientName: { type: String, required: false },
     contractId: { type: mongoose.Schema.Types.ObjectId, ref: 'Contract' },
     date: { type: Date, required: true },
-    time: { type: String, required: true }, // Keeping as string "HH:mm" for simplicity based on frontend
+    time: { type: String, required: true },
+    // HH:mm format
     type: {
         type: String,
         required: true,

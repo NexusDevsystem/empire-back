@@ -12,6 +12,7 @@ export const getAllAppointments = async (req: Request, res: Response) => {
         const mapped = appointments.map(a => ({
             id: a._id,
             clientId: a.clientId,
+            clientName: a.clientName,
             contractId: a.contractId,
             date: a.date,
             time: a.time,
@@ -35,6 +36,7 @@ export const createAppointment = async (req: Request, res: Response) => {
         res.status(201).json({
             id: saved._id,
             clientId: saved.clientId,
+            clientName: saved.clientName,
             contractId: saved.contractId,
             date: saved.date,
             time: saved.time,
@@ -60,6 +62,7 @@ export const updateAppointment = async (req: Request, res: Response) => {
         res.json({
             id: updated._id,
             clientId: updated.clientId,
+            clientName: updated.clientName,
             contractId: updated.contractId,
             date: updated.date,
             time: updated.time,
