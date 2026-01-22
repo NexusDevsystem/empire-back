@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IContract extends Document {
     contract_id: string;
     client_id: mongoose.Types.ObjectId;
+    client_name?: string;
     items: mongoose.Types.ObjectId[];
     event_type?: string;
     event_date?: Date;
@@ -27,6 +28,7 @@ export interface IContract extends Document {
 const ContractSchema = new Schema<IContract>({
     contract_id: { type: String, required: true, unique: true },
     client_id: { type: Schema.Types.ObjectId, ref: 'Client' },
+    client_name: String,
     items: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
     event_type: String,
     event_date: Date,

@@ -5,6 +5,7 @@ import Contract from '../models/Contract';
 const mapToFrontend = (c: any) => ({
     id: c._id,
     clientId: c.client_id,
+    clientName: c.client_name,
     items: c.items,
     startDate: c.pickup_date || c.event_date,
     endDate: c.return_date || c.event_date,
@@ -39,8 +40,9 @@ export const createContract = async (req: Request, res: Response) => {
     try {
         // Map Frontend to DB
         const dbData = {
-            contract_id: req.body.id || `CN-${Date.now()}`, // Fallback ID generation
+            contract_id: req.body.id || `CN-${Date.now()}`,
             client_id: req.body.clientId,
+            client_name: req.body.clientName,
             items: req.body.items,
             event_type: req.body.eventType,
             pickup_date: req.body.startDate,
@@ -74,6 +76,7 @@ export const updateContract = async (req: Request, res: Response) => {
         // Map Frontend to DB partial
         const updates: any = {};
         if (req.body.clientId) updates.client_id = req.body.clientId;
+        if (req.body.clientName) updates.client_name = req.body.clientName;
         if (req.body.items) updates.items = req.body.items;
         if (req.body.eventType) updates.event_type = req.body.eventType;
         if (req.body.startDate) updates.pickup_date = req.body.startDate;
