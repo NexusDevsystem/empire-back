@@ -29,6 +29,7 @@ app.use(helmet()); // Set security headers
 
 const allowedOrigins = [
     'http://localhost:5173',
+    'http://localhost:3000',
     'https://empire-trajes.vercel.app',
     'https://empire-trajes-finos.vercel.app',
     'https://empire-front.vercel.app'
