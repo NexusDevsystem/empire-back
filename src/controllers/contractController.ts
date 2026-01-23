@@ -20,6 +20,7 @@ const mapToFrontend = (c: any) => {
         packageDetails: c.package_details,
         lesseeSignature: c.lessee_signature,
         attendantSignature: c.attendant_signature,
+        isPhysicallySigned: c.is_physically_signed,
         paidAmount: c.paid_amount,
         paymentMethod: c.payment_method,
         balance: c.balance,
@@ -85,6 +86,7 @@ export const createContract = async (req: Request, res: Response) => {
             contact: req.body.contact,
             guest_role: req.body.guestRole,
             is_first_rental: req.body.isFirstRental,
+            is_physically_signed: req.body.isPhysicallySigned,
             number: nextNumber
         };
 
@@ -131,6 +133,7 @@ export const updateContract = async (req: Request, res: Response) => {
         if (req.body.contact !== undefined) updates.contact = req.body.contact;
         if (req.body.guestRole !== undefined) updates.guest_role = req.body.guestRole;
         if (req.body.isFirstRental !== undefined) updates.is_first_rental = req.body.isFirstRental;
+        if (req.body.isPhysicallySigned !== undefined) updates.is_physically_signed = req.body.isPhysicallySigned;
 
         // Novos campos - Garantir que sejam salvos mesmo se vazios (null/undefined)
         if (req.body.eventDate !== undefined) updates.event_date = req.body.eventDate || null;

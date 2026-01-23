@@ -27,6 +27,7 @@ export interface IContract extends Document {
     contact?: string;
     guest_role?: string;
     is_first_rental?: boolean;
+    is_physically_signed?: boolean;
     fitting_date?: Date;
     fitting_time?: string;
     measurements?: any;
@@ -61,6 +62,7 @@ const ContractSchema = new Schema<IContract>({
     contact: String,
     guest_role: String,
     is_first_rental: Boolean,
+    is_physically_signed: { type: Boolean, default: false },
     fitting_date: Date,
     fitting_time: String,
     measurements: Schema.Types.Mixed,
