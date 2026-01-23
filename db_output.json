@@ -1,0 +1,62 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Connecting to: mongodb+srv://Nexus:Suasenha123@nexusteam.mayhjak.mongodb.net/EmpireTrajesFinos
+Connected!
+Last 3 contracts:
+[
+  {
+    "_id": "697396427ff53e85b5b3950d",
+    "contract_id": "CN-20260123-3379",
+    "client_id": "6971b704833b8bb4d12aaf25",
+    "client_name": "joao marcos",
+    "items": [
+      "6972fdc05af8fbcba030c4b9"
+    ],
+    "event_type": "Formatura",
+    "event_date": "2026-01-23T00:00:00.000Z",
+    "pickup_date": "2026-01-23T00:00:00.000Z",
+    "return_date": "2026-01-24T00:00:00.000Z",
+    "total_value": 150,
+    "discount_amount": 0,
+    "status": "Agendado",
+    "status_color": "blue",
+    "terms_text": "Termos padrão para Formatura (A definir)",
+    "paid_amount": 59,
+    "payment_method": "Pix",
+    "balance": 91,
+    "number": 2,
+    "event_location": "teste",
+    "contact": "teste",
+    "guest_role": "Convidado",
+    "is_first_rental": true,
+    "created_at": "2026-01-23T15:39:46.931Z",
+    "__v": 0
+  },
+  {
+    "_id": "6972fe3d5af8fbcba030c4d4",
+    "contract_id": "CN-20260123-3142",
+    "client_id": "6971b704833b8bb4d12aaf25",
+    "client_name": "joao marcos",
+    "items": [
+      "6972fdc05af8fbcba030c4b9"
+    ],
+    "event_type": "Corporativo",
+    "event_date": "2026-01-23T00:00:00.000Z",
+    "pickup_date": "2026-01-23T00:00:00.000Z",
+    "return_date": "2026-01-29T00:00:00.000Z",
+    "total_value": 150,
+    "discount_amount": 0,
+    "status": "Agendado",
+    "status_color": "blue",
+    "terms_text": "Termos padrão para Corporativo (A definir)",
+    "paid_amount": 100,
+    "payment_method": "Pix",
+    "balance": 50,
+    "number": 1,
+    "event_location": "Chacara",
+    "contact": "Joao",
+    "guest_role": "Convidado",
+    "is_first_rental": false,
+    "created_at": "2026-01-23T04:51:09.176Z",
+    "__v": 0
+  }
+]

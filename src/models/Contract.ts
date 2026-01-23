@@ -22,6 +22,15 @@ export interface IContract extends Document {
     paid_amount?: number;
     payment_method?: string;
     balance?: number;
+    number?: number;
+    event_location?: string;
+    contact?: string;
+    guest_role?: string;
+    is_first_rental?: boolean;
+    fitting_date?: Date;
+    fitting_time?: string;
+    measurements?: any;
+    observations?: string;
     created_at: Date;
 }
 
@@ -47,6 +56,15 @@ const ContractSchema = new Schema<IContract>({
     paid_amount: { type: Number, default: 0 },
     payment_method: String,
     balance: Number,
+    number: Number,
+    event_location: String,
+    contact: String,
+    guest_role: String,
+    is_first_rental: Boolean,
+    fitting_date: Date,
+    fitting_time: String,
+    measurements: Schema.Types.Mixed,
+    observations: String,
     created_at: { type: Date, default: Date.now }
 });
 

@@ -8,11 +8,11 @@ router.use(protect); // All routes require authentication
 
 router.route('/')
     .get(getItems)
-    .post(createItem);
+    .post(authorize('admin', 'gerente'), createItem);
 
 router.route('/:id')
     .get(getItem)
-    .put(updateItem)
+    .put(authorize('admin', 'gerente'), updateItem)
     .delete(authorize('admin'), deleteItem);
 
 export default router;
