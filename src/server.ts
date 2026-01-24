@@ -14,7 +14,6 @@ import appointmentRoutes from './routes/appointments';
 import transactionRoutes from './routes/transactions';
 import employeeRoutes from './routes/employees';
 import notificationRoutes from './routes/notifications';
-import notificationRoutes from './routes/notifications';
 import settingsRoutes from './routes/settings';
 import logRoutes from './routes/logs';
 
