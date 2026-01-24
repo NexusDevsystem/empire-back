@@ -6,6 +6,7 @@ export interface IItem extends Document {
     size: string;
     color?: string;
     rental_price: number;
+    sale_price?: number;
     status: string;
     status_color: string;
     image_url?: string;
@@ -26,6 +27,7 @@ const ItemSchema = new Schema<IItem>({
     size: String,
     color: String,
     rental_price: { type: Number, required: true, default: 0 },
+    sale_price: { type: Number, default: 0 },
     status: { type: String, required: true, default: 'Disponível' },
     status_color: { type: String, default: 'primary' },
     image_url: String,

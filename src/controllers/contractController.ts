@@ -1,14 +1,17 @@
 import { Request, Response } from 'express';
 import Contract from '../models/Contract';
+import { logSystemAction } from '../utils/logger';
 
 // Helper to map DB to Frontend
 const mapToFrontend = (c: any) => {
     const mapped = {
         id: c._id, // Using _id for DB operations (updates/deletes)
         customId: c.contract_id, // For display
+        contractType: c.contract_type || 'Aluguel',
         clientId: c.client_id,
         clientName: c.client_name,
         items: c.items,
+        saleItems: c.sale_items,
         startDate: c.pickup_date || c.event_date,
         endDate: c.return_date || c.event_date,
         totalValue: c.total_value,
@@ -62,9 +65,11 @@ export const createContract = async (req: Request, res: Response) => {
         // Map Frontend to DB
         const dbData = {
             contract_id: req.body.id || `CN-${nextNumber}`,
+            contract_type: req.body.contractType || 'Aluguel',
             client_id: req.body.clientId,
             client_name: req.body.clientName,
             items: req.body.items,
+            sale_items: req.body.saleItems,
             event_type: req.body.eventType,
             pickup_date: req.body.startDate,
             return_date: req.body.endDate,
@@ -96,6 +101,14 @@ export const createContract = async (req: Request, res: Response) => {
         const saved = await contract.save();
 
         res.status(201).json(mapToFrontend(saved));
+
+        // Log system action
+        const user = (req as any).user;
+        await logSystemAction(
+            'Contratos',
+            `${user?.full_name || 'Usuário'} criou o contrato <strong>${saved.contract_id}</strong> para o cliente <strong>${saved.client_name}</strong> no valor de <strong>R$ ${saved.total_value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong>`,
+            user
+        );
     } catch (error: any) {
         console.error('[createContract] Error:', error);
         res.status(400).json({ message: error.message });
@@ -112,9 +125,11 @@ export const updateContract = async (req: Request, res: Response) => {
 
         // Map Frontend to DB partial
         const updates: any = {};
+        if (req.body.contractType) updates.contract_type = req.body.contractType;
         if (req.body.clientId) updates.client_id = req.body.clientId;
         if (req.body.clientName) updates.client_name = req.body.clientName;
         if (req.body.items) updates.items = req.body.items;
+        if (req.body.saleItems) updates.sale_items = req.body.saleItems;
         if (req.body.eventType) updates.event_type = req.body.eventType;
         if (req.body.startDate) updates.pickup_date = req.body.startDate;
         if (req.body.endDate) updates.return_date = req.body.endDate;
@@ -163,6 +178,14 @@ export const updateContract = async (req: Request, res: Response) => {
 
         console.log('[updateContract] Updated contract success');
         res.json(mapToFrontend(updated));
+
+        // Log system action
+        const user = (req as any).user;
+        await logSystemAction(
+            'Contratos',
+            `${user?.full_name || 'Usuário'} atualizou o contrato <strong>${updated.contract_id}</strong> do cliente <strong>${updated.client_name}</strong> (Status: ${updated.status})`,
+            user
+        );
     } catch (error: any) {
         console.error('[updateContract] Error:', error);
         res.status(400).json({ message: error.message });
@@ -189,6 +212,14 @@ export const deleteContract = async (req: Request, res: Response) => {
         }
 
         res.json({ message: 'Contrato removido' });
+
+        // Log system action
+        const user = (req as any).user;
+        await logSystemAction(
+            'Contratos',
+            `${user?.full_name || 'Usuário'} removeu o contrato <strong>${deleted.contract_id}</strong> do cliente <strong>${deleted.client_name}</strong>`,
+            user
+        );
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }

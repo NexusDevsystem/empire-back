@@ -14,7 +14,9 @@ import appointmentRoutes from './routes/appointments';
 import transactionRoutes from './routes/transactions';
 import employeeRoutes from './routes/employees';
 import notificationRoutes from './routes/notifications';
+import notificationRoutes from './routes/notifications';
 import settingsRoutes from './routes/settings';
+import logRoutes from './routes/logs';
 
 // Load env vars
 dotenv.config();
@@ -72,6 +74,7 @@ app.use('/api/transactions', transactionRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/logs', logRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

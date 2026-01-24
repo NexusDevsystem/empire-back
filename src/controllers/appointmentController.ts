@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Appointment from '../models/Appointment';
+import { logSystemAction } from '../utils/logger';
 
 // Get all appointments
 export const getAllAppointments = async (req: Request, res: Response) => {
@@ -44,6 +45,27 @@ export const createAppointment = async (req: Request, res: Response) => {
             notes: saved.notes,
             status: saved.status
         });
+
+        // Log system action
+        // Log system action
+        const user = (req as any).user;
+
+        let formattedDate = '';
+        try {
+            if (saved.date instanceof Date) {
+                formattedDate = saved.date.toLocaleDateString('pt-BR');
+            } else {
+                formattedDate = new Date(saved.date).toLocaleDateString('pt-BR');
+            }
+        } catch (e) {
+            formattedDate = String(saved.date);
+        }
+
+        await logSystemAction(
+            'Agendamentos',
+            `${user?.full_name || 'Usuário'} agendou <strong>${saved.type}</strong> para o cliente <strong>${saved.clientName}</strong> em <strong>${formattedDate}</strong>, às ${saved.time}`,
+            user
+        );
     } catch (error: any) {
         res.status(400).json({ message: error.message });
     }
@@ -70,6 +92,14 @@ export const updateAppointment = async (req: Request, res: Response) => {
             notes: updated.notes,
             status: updated.status
         });
+
+        // Log system action
+        const user = (req as any).user;
+        await logSystemAction(
+            'Agendamentos',
+            `${user?.full_name || 'Usuário'} alterou o agendamento de <strong>${updated.type}</strong> para o cliente <strong>${updated.clientName}</strong>`,
+            user
+        );
     } catch (error: any) {
         res.status(400).json({ message: error.message });
     }
@@ -86,6 +116,14 @@ export const deleteAppointment = async (req: Request, res: Response) => {
         }
 
         res.json({ message: 'Agendamento removido' });
+
+        // Log system action
+        const user = (req as any).user;
+        await logSystemAction(
+            'Agendamentos',
+            `${user?.full_name || 'Usuário'} removeu um agendamento de <strong>${deleted.type}</strong> do cliente <strong>${deleted.clientName}</strong>`,
+            user
+        );
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }
