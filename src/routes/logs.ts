@@ -11,11 +11,20 @@ router.get('/', async (req, res) => {
         const limit = parseInt(req.query.limit as string) || 10;
         const skip = (page - 1) * limit;
 
-        const { user, module, startDate, endDate } = req.query;
+        const { user, module, startDate, endDate, search } = req.query;
 
         let query: any = {};
 
-        // Filter by user (exact match on user_name or partial)
+        // Global Search (Description or User Name)
+        if (search) {
+            const searchRegex = { $regex: search, $options: 'i' };
+            query.$or = [
+                { description: searchRegex },
+                { user_name: searchRegex }
+            ];
+        }
+
+        // Filter by user (exact match on user_name or partial if not handled by search)
         if (user && user !== 'Todos usuários') {
             query.user_name = { $regex: user, $options: 'i' };
         }
