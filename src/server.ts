@@ -25,6 +25,9 @@ connectDB();
 
 const app = express();
 
+// Trust proxy for Railway/Proxies (required for express-rate-limit)
+app.set('trust proxy', 1);
+
 // Security Middleware
 app.use(helmet()); // Set security headers
 
@@ -33,7 +36,8 @@ const allowedOrigins = [
     'http://localhost:3000',
     'https://empire-trajes.vercel.app',
     'https://empire-trajes-finos.vercel.app',
-    'https://empire-front.vercel.app'
+    'https://empire-front.vercel.app',
+    'https://empiretrajesfinos.vercel.app'
 ];
 
 app.use(cors({
