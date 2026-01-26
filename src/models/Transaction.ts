@@ -22,6 +22,14 @@ const TransactionSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    due_date: {
+        type: Date
+    },
+    status: {
+        type: String,
+        enum: ['pago', 'pendente'],
+        default: 'pago'
+    },
     created_at: {
         type: Date,
         default: Date.now

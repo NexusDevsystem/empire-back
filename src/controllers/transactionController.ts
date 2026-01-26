@@ -12,7 +12,9 @@ export const getAllTransactions = async (req: Request, res: Response) => {
             amount: t.amount,
             description: t.description,
             category: t.category,
-            date: t.date
+            date: t.date,
+            status: t.status,
+            dueDate: t.due_date
         }));
         res.json(mapped);
     } catch (error: any) {
@@ -23,12 +25,14 @@ export const getAllTransactions = async (req: Request, res: Response) => {
 // Create transaction
 export const createTransaction = async (req: Request, res: Response) => {
     try {
-        const { type, amount, description, category, date } = req.body;
+        const { type, amount, description, category, date, status, dueDate } = req.body;
         const transaction = new Transaction({
             type,
             amount,
             description,
             category,
+            status: status || 'pago',
+            due_date: dueDate,
             date: date || new Date()
         });
         const saved = await transaction.save();
@@ -38,7 +42,9 @@ export const createTransaction = async (req: Request, res: Response) => {
             amount: saved.amount,
             description: saved.description,
             category: saved.category,
-            date: saved.date
+            date: saved.date,
+            status: saved.status,
+            dueDate: saved.due_date
         });
 
         // Log system action
@@ -49,6 +55,51 @@ export const createTransaction = async (req: Request, res: Response) => {
             `${user?.full_name || 'Usuário'} lançou uma <strong>${msgType}</strong> de <strong>R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong> (${description})`,
             user
         );
+    } catch (error: any) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// Update transaction
+export const updateTransaction = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { status, amount, description, category, date, dueDate } = req.body;
+
+        const updateData: any = {};
+        if (status) updateData.status = status;
+        if (amount !== undefined) updateData.amount = amount;
+        if (description) updateData.description = description;
+        if (category) updateData.category = category;
+        if (date) updateData.date = date;
+        if (dueDate !== undefined) updateData.due_date = dueDate;
+
+        const updated = await Transaction.findByIdAndUpdate(id, updateData, { new: true });
+
+        if (!updated) {
+            return res.status(404).json({ message: 'Transação não encontrada' });
+        }
+
+        res.json({
+            id: updated._id,
+            type: updated.type,
+            amount: updated.amount,
+            description: updated.description,
+            category: updated.category,
+            date: updated.date,
+            status: updated.status,
+            dueDate: updated.due_date
+        });
+
+        // Log system action if status changed
+        if (status) {
+            const user = (req as any).user;
+            await logSystemAction(
+                'Financeiro',
+                `${user?.full_name || 'Usuário'} atualizou o status da conta <strong>${updated.description}</strong> para <strong>${status.toUpperCase()}</strong>`,
+                user
+            );
+        }
     } catch (error: any) {
         res.status(400).json({ message: error.message });
     }
