@@ -37,7 +37,7 @@ async function createAdmin() {
         }
 
         // Hash password
-        const hashedPassword = await bcrypt.hash('empire123', 10);
+        const hashedPassword = await bcrypt.hash('emperi@23', 10);
 
         // Create user
         const user = await User.create({
@@ -48,7 +48,7 @@ async function createAdmin() {
 
         console.log('✅ Usuário criado:');
         console.log('   Email: empire@admin.com');
-        console.log('   Senha: empire123');
+        console.log('   Senha: emperi@23');
         console.log('   ID:', user._id.toString());
 
         // Create profile

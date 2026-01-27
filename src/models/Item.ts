@@ -11,6 +11,7 @@ export interface IItem extends Document {
     status_color: string;
     image_url?: string;
     location?: string;
+    code?: string;
     notes?: string;
 
     // Campos de quantidade para sistema de estoque
@@ -32,6 +33,7 @@ const ItemSchema = new Schema<IItem>({
     status_color: { type: String, default: 'primary' },
     image_url: String,
     location: String,
+    code: String,
     notes: String,
 
     // Campos de quantidade (compatibilidade com itens antigos)

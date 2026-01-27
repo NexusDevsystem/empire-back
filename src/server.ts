@@ -16,6 +16,7 @@ import employeeRoutes from './routes/employees';
 import notificationRoutes from './routes/notifications';
 import settingsRoutes from './routes/settings';
 import logRoutes from './routes/logs';
+import receiptRoutes from './routes/receipts';
 
 // Load env vars
 dotenv.config();
@@ -83,6 +84,7 @@ app.use('/api/employees', employeeRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/logs', logRoutes);
+app.use('/api/receipts', receiptRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

@@ -57,7 +57,8 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     console.log(`[LOGIN ATTEMPT] Email: ${req.body.email}`);
     try {
-        const { email, password } = req.body;
+        let { email, password } = req.body;
+        email = email ? email.trim().toLowerCase() : '';
 
         // Find user
         const user = await User.findOne({ email });
