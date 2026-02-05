@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Contract from '../models/Contract';
+import Item from '../models/Item';
 import { logSystemAction } from '../utils/logger';
 
 // Helper to map DB to Frontend
@@ -21,6 +22,8 @@ const mapToFrontend = (c: any) => {
         terms: c.terms_text,
         debutanteDetails: c.debutante_details,
         packageDetails: c.package_details,
+        packageId: c.package_id,
+        packageName: c.package_name,
         lesseeSignature: c.lessee_signature,
         attendantSignature: c.attendant_signature,
         isPhysicallySigned: c.is_physically_signed,
@@ -40,6 +43,50 @@ const mapToFrontend = (c: any) => {
         created_at: c.created_at
     };
     return mapped;
+};
+
+// Helper to sync item statuses based on contract status
+const syncItemStatuses = async (contract: any) => {
+    try {
+        // Fulfilled: Contract is active and items are "out" or reserved
+        const fulfilledStatuses = ['Agendado', 'Confirmado', 'Retirado', 'Alugado', 'Em Prova'];
+        // Released: Contract is over or void, items are back or never left
+        const releasedStatuses = ['Cancelado', 'Finalizado', 'Devolvido'];
+
+        const itemIds = [...(contract.items || []), ...(contract.sale_items || [])];
+        if (itemIds.length === 0) return;
+
+        if (fulfilledStatuses.includes(contract.status)) {
+            await Item.updateMany(
+                { _id: { $in: itemIds } },
+                {
+                    $set: {
+                        status: contract.contract_type === 'Venda' ? 'Vendido' : 'Alugado',
+                        status_color: 'red'
+                    }
+                }
+            );
+        } else if (releasedStatuses.includes(contract.status)) {
+            // For rentals, Finalizado/Devolvido means back to stock.
+            // For sales, Finalizado means sold for good.
+            const isDefinitiveSale = contract.contract_type === 'Venda' && (contract.status === 'Finalizado' || contract.status === 'Confirmado');
+
+            const newStatus = isDefinitiveSale ? 'Vendido' : 'Disponível';
+            const newColor = isDefinitiveSale ? 'red' : 'primary';
+
+            await Item.updateMany(
+                { _id: { $in: itemIds } },
+                {
+                    $set: {
+                        status: newStatus,
+                        status_color: newColor
+                    }
+                }
+            );
+        }
+    } catch (error) {
+        console.error('[syncItemStatuses] Error syncing items:', error);
+    }
 };
 
 // Get all contracts
@@ -84,6 +131,8 @@ export const createContract = async (req: Request, res: Response) => {
             terms_text: req.body.terms,
             debutante_details: req.body.debutanteDetails,
             package_details: req.body.packageDetails,
+            package_id: req.body.packageId,
+            package_name: req.body.packageName,
             paid_amount: req.body.paidAmount,
             payment_method: req.body.paymentMethod,
             balance: req.body.balance,
@@ -99,6 +148,9 @@ export const createContract = async (req: Request, res: Response) => {
 
         const contract = new Contract(dbData);
         const saved = await contract.save();
+
+        // Sync items
+        await syncItemStatuses(saved);
 
         res.status(201).json(mapToFrontend(saved));
 
@@ -139,6 +191,8 @@ export const updateContract = async (req: Request, res: Response) => {
         if (req.body.terms) updates.terms_text = req.body.terms;
         if (req.body.debutanteDetails) updates.debutante_details = req.body.debutanteDetails;
         if (req.body.packageDetails) updates.package_details = req.body.packageDetails;
+        if (req.body.packageId) updates.package_id = req.body.packageId;
+        if (req.body.packageName) updates.package_name = req.body.packageName;
         if (req.body.lesseeSignature !== undefined) updates.lessee_signature = req.body.lesseeSignature;
         if (req.body.attendantSignature !== undefined) updates.attendant_signature = req.body.attendantSignature;
         if (req.body.paidAmount !== undefined) updates.paid_amount = req.body.paidAmount;
@@ -177,6 +231,10 @@ export const updateContract = async (req: Request, res: Response) => {
         }
 
         console.log('[updateContract] Updated contract success');
+
+        // Sync items based on new status/items
+        await syncItemStatuses(updated);
+
         res.json(mapToFrontend(updated));
 
         // Log system action
@@ -212,6 +270,14 @@ export const deleteContract = async (req: Request, res: Response) => {
         }
 
         res.json({ message: 'Contrato removido' });
+
+        // Release items
+        if (deleted) {
+            await Item.updateMany(
+                { _id: { $in: [...(deleted.items || []), ...(deleted.sale_items || [])] } },
+                { $set: { status: 'Disponível', status_color: 'primary' } }
+            );
+        }
 
         // Log system action
         const user = (req as any).user;

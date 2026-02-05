@@ -21,6 +21,8 @@ export interface IContract extends Document {
     signatures?: any;
     debutante_details?: any;
     package_details?: any;
+    package_id?: mongoose.Types.ObjectId;
+    package_name?: string;
     paid_amount?: number;
     payment_method?: string;
     balance?: number;
@@ -58,6 +60,8 @@ const ContractSchema = new Schema<IContract>({
     signatures: Schema.Types.Mixed,
     debutante_details: Schema.Types.Mixed,
     package_details: Schema.Types.Mixed,
+    package_id: { type: Schema.Types.ObjectId, ref: 'Package' },
+    package_name: String,
     paid_amount: { type: Number, default: 0 },
     payment_method: String,
     balance: Number,
