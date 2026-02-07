@@ -63,14 +63,15 @@ app.use(cors({
 
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 20, // Limit each IP to 20 login requests per windowMs
-    message: { message: 'Muitas tentativas de login. Tente novamente em 15 minutos.' },
+    max: 100, // Increased limit for development/flexibility
+    message: { message: 'Muitas tentativas. Tente novamente em 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
 });
 
-// Apply rate limiter specifically to auth routes
-app.use('/api/auth', loginLimiter);
+// Apply rate limiter specifically to sensitive auth routes
+app.use('/api/auth/login', loginLimiter);
+app.use('/api/auth/register', loginLimiter);
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));

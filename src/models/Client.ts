@@ -13,12 +13,14 @@ export interface IClient extends Document {
     address_state?: string;
     address_zip?: string;
     birth_date?: Date;
+    profile_type?: string;
     measurements?: any;
     created_at: Date;
 }
 
 const ClientSchema = new Schema<IClient>({
     name: { type: String, required: true },
+    profile_type: { type: String, default: 'Comum' },
     email: String,
     phone: String,
     cpf: { type: String, sparse: true },

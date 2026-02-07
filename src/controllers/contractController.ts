@@ -40,6 +40,7 @@ const mapToFrontend = (c: any) => {
         fittingTime: c.fitting_time,
         measurements: c.measurements,
         observations: c.observations,
+        profileType: c.profile_type,
         created_at: c.created_at
     };
     return mapped;

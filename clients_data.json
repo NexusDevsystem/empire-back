@@ -1,0 +1,31 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Connected!
+Last 20 clients:
+Name: Ruthcléa  Sarmento da Silveira Silva, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  Values found: {"height":"","weight":"","shoeSize":"","shirtSize":"","pantsSize":"","jacketSize":"","chest":"74-66","waist":"62","hips":"","shoulder":"","sleeve":"","inseam":"","neck":""}
+Name: Lucianne Lopes Machado da Silva, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  All measurements are empty strings or missing.
+Name: Lucianne Lopes Machado da Silva, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  All measurements are empty strings or missing.
+Name: Diego Duarte dos Santos, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  All measurements are empty strings or missing.
+Name: Fabiane Pereira Ribeiro, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  Values found: {"height":"","weight":"","shoeSize":"","shirtSize":"","pantsSize":"","jacketSize":"","chest":"118-106","waist":"111","hips":"","shoulder":"","sleeve":"","inseam":"","neck":""}
+Name: Vinicius Henrique Pinheiro Cardoso, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  Values found: {"height":"","weight":"","shoeSize":"43","shirtSize":"4","pantsSize":"42","jacketSize":"52","chest":"","waist":"","hips":"","shoulder":"","sleeve":"","inseam":"","neck":""}
+Name: Francinete Lobato Lopes, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  Values found: {"height":"","weight":"","shoeSize":"42","shirtSize":"preta n3","pantsSize":"38","jacketSize":"","chest":"","waist":"","hips":"","shoulder":"","sleeve":"","inseam":"","neck":""}
+Name: Keila Albuquerque, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  All measurements are empty strings or missing.
+Name: Adriana Vieira Coelho, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  All measurements are empty strings or missing.
+Name: Carla Monteiro , Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  Values found: {"height":"","weight":"","shoeSize":"","shirtSize":"","pantsSize":"","jacketSize":"","chest":"103-84","waist":"87","hips":"","shoulder":"","sleeve":"","inseam":"","neck":""}
+Name: Andressa Rafaella Cruz de Moraes, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  Values found: {"height":"","weight":"","shoeSize":"","shirtSize":"","pantsSize":"","jacketSize":"","chest":"","waist":"76","hips":"","shoulder":"","sleeve":"","inseam":"","neck":""}
+Name: Felipe Almeida Marques, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  Values found: {"height":"","weight":"","shoeSize":"","shirtSize":"","pantsSize":"96","jacketSize":"61","chest":"","waist":"","hips":"","shoulder":"","sleeve":"","inseam":"","neck":""}
+Name: Nadja Sarrafi Silva, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  All measurements are empty strings or missing.
+Name: Antonio Carlos Galvão Modesto, Profile: LEGACY, Measurements Keys: height, weight, shoeSize, shirtSize, pantsSize, jacketSize, chest, waist, hips, shoulder, sleeve, inseam, neck
+  All measurements are empty strings or missing.
