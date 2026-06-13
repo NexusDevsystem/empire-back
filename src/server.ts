@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import path from 'path';
 import connectDB from './config/database';
 
 // Routes
@@ -21,7 +22,7 @@ import receiptRoutes from './routes/receipts';
 import packageRoutes from './routes/packages';
 
 // Load env vars
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 // Connect to database
 connectDB();
